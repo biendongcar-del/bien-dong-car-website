@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Bien Dong Car | Private Car Rental & Chauffeur Service in Vietnam</title>
+
+<meta name="description" content="Book private car rental with driver, airport transfers, corporate transportation and private tours in Vietnam. Contact Bien Dong Car for a quotation.">
+
+<meta name="robots" content="index,follow">
+
+<meta name="theme-color" content="#090909">
+
+<link rel="canonical" href="https://biendongcar-del.github.io/bien-dong-car-website/en/">
+
+<meta property="og:title" content="Bien Dong Car | Private Car & Chauffeur Service">
+
+<meta property="og:description" content="Premium private car rental, airport transfers and chauffeur services in Vietnam.">
+
+<meta property="og:type" content="website">
+
+<meta property="og:image" content="https://biendongcar-del.github.io/bien-dong-car-website/assets/logo-bien-dong-car.jpeg">
+
+<style>
+
+:root{--black:#090909;--gold:#d7b45a;--light:#f4d98a;--white:#f7f7f7;--gray:#bdbdbd}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{margin:0;background:var(--black);color:var(--white);font-family:Arial,Helvetica,sans-serif;line-height:1.7}
+
+a{color:inherit;text-decoration:none}
+
+.wrap{width:min(1120px,92%);margin:auto}
+
+.top{padding:10px 0;border-bottom:1px solid #333;color:var(--light);font-size:14px}
+
+header{position:sticky;top:0;z-index:20;background:rgba(9,9,9,.96);border-bottom:1px solid #333}
+
+.nav{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 0}
+
+.brand img{width:145px;max-height:75px;object-fit:contain}
+
+.links{display:flex;gap:18px;align-items:center;font-size:14px}
+
+.links a:hover{color:var(--gold)}
+
+.btn{display:inline-block;background:linear-gradient(120deg,var(--light),var(--gold));color:#111;padding:13px 22px;border-radius:10px;font-weight:bold;border:1px solid var(--gold);text-align:center}
+
+.btn-outline{background:transparent;color:var(--light)}
+
+.languages{display:flex;justify-content:center;gap:9px;padding:0 0 14px}
+
+.languages a{border:1px solid #66552f;padding:6px 12px;border-radius:8px;color:var(--light);font-size:14px}
+
+.languages .active{background:var(--gold);color:#111}
+
+.hero{padding:76px 0 65px;background:radial-gradient(ellipse at 85% 15%,#3a3017 0%,#17140d 36%,#090909 75%)}
+
+.eyebrow{color:var(--gold);font-weight:bold;letter-spacing:3px;text-transform:uppercase;font-size:14px}
+
+h1{font-size:clamp(36px,6vw,62px);line-height:1.13;margin:20px 0}
+
+h1 span,.gold{color:var(--light)}
+
+.hero p{font-size:19px;color:#d0d0d0;max-width:780px}
+
+.actions{display:flex;gap:14px;flex-wrap:wrap;margin:28px 0}
+
+.trust{display:flex;gap:25px;flex-wrap:wrap;color:var(--light);font-weight:bold;margin-top:28px}
+
+section{padding:62px 0;border-bottom:1px solid #292929}
+
+.section-head{text-align:center;max-width:750px;margin:0 auto 35px}
+
+.section-head h2{font-size:32px;color:var(--light);line-height:1.25}
+
+.section-head p{color:var(--gray)}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+.card{background:linear-gradient(145deg,#191919,#101010);border:1px solid #393126;border-radius:15px;padding:24px}
+
+.card h3{color:var(--light);margin-top:0}
+
+.card p,.card li{color:#c7c7c7}
+
+.fleet{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+.fleet div{background:#151515;border:1px solid #393126;padding:18px;border-radius:12px;color:var(--light);font-weight:bold}
+
+.route-list{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+
+.route-list span{border:1px solid #66552f;border-radius:30px;padding:10px 17px;color:#f1d98e}
+
+.contact-area{background:linear-gradient(135deg,#17130b,#0b0b0b);border:1px solid #594a2b;border-radius:18px;padding:28px}
+
+form{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+
+input,select,textarea{width:100%;padding:14px;border-radius:8px;border:1px solid #655632;background:#101010;color:white;font-size:15px}
+
+textarea{grid-column:1/-1;min-height:110px}
+
+form button{grid-column:1/-1;cursor:pointer;font-size:16px}
+
+.note{color:#aaa;font-size:13px}
+
+.faq details{background:#151515;padding:17px;margin:10px 0;border-radius:9px;border:1px solid #393126}
+
+.faq summary{color:var(--light);font-weight:bold;cursor:pointer}
+
+footer{padding:35px 0;color:#aaa;text-align:center}
+
+.float{position:fixed;right:14px;bottom:18px;z-index:30;display:grid;gap:8px}
+
+.float a{background:var(--gold);color:#111;padding:10px 16px;border-radius:30px;font-weight:bold;box-shadow:0 3px 15px #0008;text-align:center;font-size:13px}
+
+.contact-number{color:var(--light);font-weight:bold}
+
+@media(max-width:760px){
+
+ .links{display:none}
+
+ .hero{padding:55px 0}
+
+ .grid,.fleet{grid-template-columns:1fr}
+
+ form{grid-template-columns:1fr}
+
+ textarea,form button{grid-column:1}
+
+ .section-head h2{font-size:27px}
+
+ .hero p{font-size:17px}
+
+ .actions .btn{width:100%}
+
+ .trust{gap:12px}
+
+}
+
+</style>
+
+<script type="application/ld+json">
+
+{
+
+ "@context":"https://schema.org",
+
+ "@type":"TransportationService",
+
+ "name":"Bien Dong Car",
+
+ "description":"Private car rental, chauffeur service and airport transfers in Vietnam.",
+
+ "url":"https://biendongcar-del.github.io/bien-dong-car-website/en/",
+
+ "telephone":"+84377522800",
+
+ "areaServed":"Vietnam",
+
+ "image":"https://biendongcar-del.github.io/bien-dong-car-website/assets/logo-bien-dong-car.jpeg"
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div class="top">
+
+ <div class="wrap">
+
+  PREMIUM PRIVATE CAR & CHAUFFEUR SERVICE<br>
+
+  Booking: <a href="tel:0377522800">0377 522 800</a>
+
+  · Consultant: <a href="tel:0918090590">0918 090 590</a>
+
+ </div>
+
+</div>
+
+<header>
+
+ <div class="wrap nav">
+
+  <a class="brand" href="./" aria-label="Bien Dong Car home">
+
+   <img src="../assets/logo-bien-dong-car.jpeg" alt="Bien Dong Car logo">
+
+  </a>
+
+  <nav class="links" aria-label="Main navigation">
+
+   <a href="#services">Services</a>
+
+   <a href="#fleet">Our Fleet</a>
+
+   <a href="#routes">Routes</a>
+
+   <a href="#booking">Contact</a>
+
+  </nav>
+
+  <a class="btn" href="tel:0377522800">CALL 0377 522 800</a>
+
+ </div>
+
+ <div class="languages">
+
+  <a href="../">VI</a>
+
+  <a class="active" href="./">EN</a>
+
+  <a href="../zh/">中文</a>
+
+  <a href="../ko/">한국어</a>
+
+ </div>
+
+</header>
+
+<main>
+
+<section class="hero">
+
+ <div class="wrap">
+
+  <div class="eyebrow">Private car & chauffeur service</div>
+
+  <h1>Travel in comfort,<br><span>service beyond expectations.</span></h1>
+
+  <p>BIEN DONG CAR provides chauffeur-driven private cars, contract transportation, airport transfers and intercity journeys from Ho Chi Minh City. We serve families, corporate clients and international travelers.</p>
+
+  <div class="actions">
+
+   <a class="btn" href="#booking">BOOK NOW / GET A QUOTE</a>
+
+   <a class="btn btn-outline" href="https://zalo.me/0377522800">CHAT ON ZALO</a>
+
+  </div>
+
+  <div class="trust">
+
+   <span>✓ Private car with driver</span>
+
+   <span>✓ Flexible itineraries</span>
+
+   <span>✓ Upfront trip quotation</span>
+
+  </div>
+
+ </div>
+
+</section>
+
+<section id="services">
+
+ <div class="wrap">
+
+  <div class="section-head">
+
+   <div class="eyebrow">Our services</div>
+
+   <h2>Transportation solutions for every journey</h2>
+
+   <p>Reliable private transportation for holidays, business trips, airport transfers and special occasions.</p>
+
+  </div>
+
+  <div class="grid">
+
+   <article class="card">
+
+    <h3>01 / Private Tours</h3>
+
+    <p>Explore Vietnam at your own pace with a private vehicle and professional driver. Customize your itinerary and travel comfortably.</p>
+
+   </article>
+
+   <article class="card">
+
+    <h3>02 / Airport Transfers</h3>
+
+    <p>Convenient pickup and drop-off at Tan Son Nhat International Airport and other destinations. Advance booking is available.</p>
+
+   </article>
+
+   <article class="card">
+
+    <h3>03 / Corporate Transport</h3>
+
+    <p>Transportation solutions for companies, business meetings, employee shuttles, hotels and events.</p>
+
+   </article>
+
+   <article class="card">
+
+    <h3>04 / Contract Car Rental</h3>
+
+    <p>Flexible vehicle rental with a driver for hourly, daily and multi-day journeys.</p>
+
+   </article>
+
+   <article class="card">
+
+    <h3>05 / Intercity Travel</h3>
+
+    <p>Private transfers from Ho Chi Minh City to Vung Tau, Phan Thiet, Da Lat, Nha Trang, Can Tho and more.</p>
+
+   </article>
+
+   <article class="card">
+
+    <h3>06 / Group Transportation</h3>
+
+    <p>Comfortable transportation for families, tour groups, delegations and special events.</p>
+
+   </article>
+
+  </div>
+
+ </div>
+
+</section>
+
+<section id="fleet">
+
+ <div class="wrap">
+
+  <div class="section-head">
+
+   <div class="eyebrow">Our fleet</div>
+
+   <h2>Choose the right vehicle for your trip</h2>
+
+   <p>A range of vehicles for individuals, families, business travelers and large groups.</p>
+
+  </div>
+
+  <div class="fleet">
+
+   <div>4-seat private cars</div>
+
+   <div>7-seat family cars</div>
+
+   <div>Kia Sedona</div>
+
+   <div>Kia Carnival VIP</div>
+
+   <div>9-seat Limousine</div>
+
+   <div>12-seat Limousine</div>
+
+   <div>16-seat vans</div>
+
+   <div>29-seat minibuses</div>
+
+   <div>45-seat coaches</div>
+
+  </div>
+
+ </div>
+
+</section>
+
+<section id="routes">
+
+ <div class="wrap">
+
+  <div class="section-head">
+
+   <div class="eyebrow">Popular destinations</div>
+
+   <h2>Discover Vietnam with a private driver</h2>
+
+   <p>Departing from Ho Chi Minh City, explore popular destinations in Southern and Central Vietnam.</p>
+
+  </div>
+
+  <div class="route-list">
+
+   <span>Ho Chi Minh City – Vung Tau</span>
+
+   <span>Ho Chi Minh City – Phan Thiet</span>
+
+   <span>Ho Chi Minh City – Mui Ne</span>
+
+   <span>Ho Chi Minh City – Da Lat</span>
+
+   <span>Ho Chi Minh City – Nha Trang</span>
+
+   <span>Ho Chi Minh City – Can Tho</span>
+
+   <span>Mekong Delta Tours</span>
+
+   <span>Cu Chi Tunnels</span>
+
+  </div>
+
+ </div>
+
+</section>
+
+<section id="booking">
+
+ <div class="wrap">
+
+  <div class="section-head">
+
+   <div class="eyebrow">Booking & quotation</div>
+
+   <h2>Tell us about your journey</h2>
+
+   <p>Send your trip details to our team. We will contact you to discuss vehicle options and pricing.</p>
+
+  </div>
+
+  <div class="contact-area">
+
+   <form id="bookingForm">
+
+    <input id="customer" type="text" placeholder="Your name" required>
+
+    <input id="phone" type="tel" placeholder="Your phone / WhatsApp" required>
+
+    <input id="pickup" type="text" placeholder="Pickup location" required>
+
+    <input id="destination" type="text" placeholder="Destination" required>
+
+    <input id="date" type="date" aria-label="Travel date">
+
+    <select id="vehicle">
+
+     <option value="">Select a vehicle</option>
+
+     <option>4-seat car</option>
+
+     <option>7-seat car</option>
+
+     <option>Kia Sedona / Carnival</option>
+
+     <option>9-seat Limousine</option>
+
+     <option>12-seat Limousine</option>
+
+     <option>16-seat van</option>
+
+     <option>29-seat minibus</option>
+
+     <option>45-seat coach</option>
+
+     <option>Not sure yet</option>
+
+    </select>
+
+    <textarea id="details" placeholder="Additional details: number of passengers, luggage, itinerary..."></textarea>
+
+    <button class="btn" type="submit">SEND BOOKING REQUEST VIA WHATSAPP</button>
+
+   </form>
+
+   <p class="note">Your request will open WhatsApp with your information filled in. Please review and send the message to confirm your inquiry. This form does not store information on a website database.</p>
+
+  </div>
+
+ </div>
+
+</section>
+
+<section class="faq">
+
+ <div class="wrap">
+
+  <div class="section-head">
+
+   <div class="eyebrow">Frequently asked questions</div>
+
+   <h2>Travel information</h2>
+
+  </div>
+
+  <details>
+
+   <summary>How can I book a private car?</summary>
+
+   <p>Complete the booking form above or contact our team by phone, Zalo or WhatsApp. Please provide your pickup location, destination, travel date and number of passengers.</p>
+
+  </details>
+
+  <details>
+
+   <summary>Can I book an airport transfer?</summary>
+
+   <p>Yes. We provide advance-booked airport pickup and drop-off services from Tan Son Nhat International Airport.</p>
+
+  </details>
+
+  <details>
+
+   <summary>Can I customize my itinerary?</summary>
+
+   <p>Yes. You can discuss your destinations, stops and schedule with our team before confirming your trip.</p>
+
+  </details>
+
+  <details>
+
+   <summary>How do I get a quotation?</summary>
+
+   <p>Send us your route, date, vehicle preference and trip duration. Our team will advise you on the suitable vehicle and quotation.</p>
+
+  </details>
+
+ </div>
+
+</section>
+
+<section id="contact">
+
+ <div class="wrap contact-area">
+
+  <div class="section-head">
+
+   <div class="eyebrow">Contact us</div>
+
+   <h2>We are ready to assist you</h2>
+
+  </div>
+
+  <p>Booking / WeChat / WhatsApp / Telegram:</p>
+
+  <p class="contact-number">0377 522 800</p>
+
+  <p>Consultant:</p>
+
+  <p class="contact-number">0918 090 590</p>
+
+  <p>WeChat: Search and add us using 0377 522 800.</p>
+
+  <p><a class="btn" href="https://wa.me/84377522800">CONTACT VIA WHATSAPP</a></p>
+
+  <p><a class="btn btn-outline" href="https://t.me/+84377522800">CONTACT VIA TELEGRAM</a></p>
+
+ </div>
+
+</section>
+
+</main>
+
+<footer>
+
+ <div class="wrap">
+
+  <h3 class="gold">BIEN DONG CAR</h3>
+
+  <p>Premium Private Car & Chauffeur Service in Vietnam</p>
+
+  <p>Booking: <a href="tel:0377522800">0377 522 800</a></p>
+
+  <p>Consultant: <a href="tel:0918090590">0918 090 590</a></p>
+
+  <p>© <span id="year"></span> Bien Dong Car. All rights reserved.</p>
+
+ </div>
+
+</footer>
+
+<div class="float">
+
+ <a href="tel:0377522800">☎ CALL US</a>
+
+ <a href="https://zalo.me/0377522800">ZALO</a>
+
+ <a href="https://wa.me/84377522800">WHATSAPP</a>
+
+ <a href="https://t.me/+84377522800">TELEGRAM</a>
+
+</div>
+
+<script>
+
+document.getElementById("year").textContent=new Date().getFullYear();
+
+document.getElementById("bookingForm").addEventListener("submit",function(e){
+
+ e.preventDefault();
+
+ const message=[
+
+  "BIEN DONG CAR - BOOKING REQUEST",
+
+  "Name: "+document.getElementById("customer").value,
+
+  "Phone: "+document.getElementById("phone").value,
+
+  "Pickup: "+document.getElementById("pickup").value,
+
+  "Destination: "+document.getElementById("destination").value,
+
+  "Travel date: "+document.getElementById("date").value,
+
+  "Vehicle: "+document.getElementById("vehicle").value,
+
+  "Details: "+document.getElementById("details").value
+
+ ].join("\n");
+
+ window.location.href="https://wa.me/84377522800?text="+encodeURIComponent(message);
+
+});
+
+</script>
+
+</body>
+
+</html>
