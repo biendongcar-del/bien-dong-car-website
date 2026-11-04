@@ -1,4 +1,4 @@
-<!doctype html>
+u<!doctype html>
 <html lang="vi">
 <head>
   <meta charset="utf-8">
@@ -54,6 +54,39 @@
     .vehicle-capacity-note{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
     .vehicle-capacity-note span{border:1px solid #80652d;color:#f2d98c;border-radius:999px;padding:7px 12px;font-size:13px;background:#14110b}
     @media(max-width:600px){.vehicle-capacity-note span{font-size:12px;padding:6px 9px}}
+ .mobile-menu{
+  display:none;
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold2);
+  font-size:24px;
+  padding:6px 12px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+@media(max-width:760px){
+  .mobile-menu{display:block}
+  .nav{position:relative;flex-wrap:wrap}
+  .links.open{
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    background:#090909;
+    border:1px solid #51452b;
+    padding:10px 16px;
+    z-index:30;
+  }
+  .links.open a{
+    padding:10px 0;
+    border-bottom:1px solid #302b21;
+  }
+}
   </style>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"TransportationService","name":"Biển Đông Car","url":"https://biendongcar-del.github.io/bien-dong-car-website/","telephone":"+84377522800","contactPoint":[{"@type":"ContactPoint","telephone":"+84918090590","contactType":"customer service","availableLanguage":["Vietnamese","English","Chinese"]}],"description":"Dịch vụ thuê xe du lịch có tài xế, xe hợp đồng, đưa đón sân bay và xe đi tỉnh từ TP. Hồ Chí Minh.","areaServed":["Thành phố Hồ Chí Minh","Vũng Tàu","Phan Thiết","Đà Lạt","Nha Trang","Cần Thơ"],"serviceType":["Thuê xe du lịch","Thuê xe có tài xế","Xe hợp đồng","Đưa đón sân bay"]}
@@ -61,11 +94,27 @@
 </head>
 <body>
   <div class="top"><div class="wrap"><span>DỊCH VỤ XE DU LỊCH & XE HỢP ĐỒNG CAO CẤP</span><span>Đặt xe: <a href="tel:0377522800">0377 522 800</a> · Chuyên viên tư vấn: <a href="tel:0918090590">0918 090 590</a></span></div></div>
-  <header><div class="wrap nav">
-    <a class="brand" href="./" aria-label="Biển Đông Car"><img src="assets/logo-bien-dong-car.jpeg" alt="Logo Biển Đông Car"></a>
-    <nav class="links" aria-label="Điều hướng chính"><a href="#dich-vu">Dịch vụ</a><a href="#doi-xe">Đội xe</a><a href="#tuyen-duong">Tuyến xe</a><a href="#bang-gia">Bảng giá</a><a href="#tinh-gia">Tính giá</a><a href="bai-viet/">Cẩm nang</a><a href="#lien-he">Liên hệ</a></nav>
+   <header>
+  <div class="wrap nav">
+    <a class="brand" href="./" aria-label="Biển Đông Car">
+      <img src="assets/logo-bien-dong-car.jpeg" alt="Logo Biển Đông Car">
+    </a>
+
+    <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Mở menu">☰</button>
+
+    <nav class="links" id="mainNav" aria-label="Điều hướng chính">
+      <a href="#dich-vu">Dịch vụ</a>
+      <a href="#doi-xe">Đội xe</a>
+      <a href="#tuyen-duong">Tuyến xe</a>
+      <a href="#bang-gia">Bảng giá</a>
+      <a href="#tinh-gia">Tính giá</a>
+      <a href="bai-viet/">Cẩm nang</a>
+      <a href="#lien-he">Liên hệ</a>
+    </nav>
+
     <a class="btn" href="tel:0377522800">GỌI 0377 522 800</a>
-  </div></header>
+  </div>
+</header>
   <main>
     <section class="hero"><div class="wrap">
       <div class="eyebrow">Private car & chauffeur service</div>
