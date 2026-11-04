@@ -189,10 +189,59 @@
     document.getElementById('hourVehicle').addEventListener('change',calcHour);document.getElementById('hourCount').addEventListener('input',calcHour);calcHour();
     const kmRates={7:[[1,10,300000,300000],[10,30,300000,500000],[30,50,500000,700000],[50,70,700000,900000],[70,100,900000,1100000]],sedona:[[1,10,600000,600000],[10,30,600000,1000000],[30,50,1000000,1200000],[50,70,1200000,1500000],[70,100,1500000,2000000]],carnival:[[1,10,800000,800000],[10,30,800000,1300000],[30,50,1300000,1600000],[50,70,1600000,2000000],[70,100,2000000,2500000]],'16':[[1,10,800000,800000],[10,30,800000,1300000],[30,50,1300000,1600000],[50,70,1600000,2000000],[70,100,2000000,2500000]],limo:[[1,10,1000000,1000000],[10,30,1000000,1500000],[30,50,1500000,2000000],[50,70,2000000,2500000],[70,100,2500000,3000000]]};
     function kmRange(v,km){const b=kmRates[v].find((x,i)=>i===0?(km>=x[0]&&km<=x[1]):(km>x[0]&&km<=x[1]));if(!b)return null;return {min:b[2],max:b[3],low:b[0],high:b[1]}}
-    function calcKm(){const v=document.getElementById('kmVehicle').value,km=Number(document.getElementById('kmCount').value)||0,b=kmRange(v,km);document.getElementById('kmTotal').textContent=b?(b.min===b.max?fmt(b.min):fmt(b.min)+' – '+fmt(b.max)):'Liên hệ báo giá';document.getElementById('kmDetails').textContent=b?`Khung giá tham khảo ${b.low}–${b.high} km. Mức chốt tùy lộ trình và xác nhận của nhân viên.`:'Nhập quãng đường từ 1 đến 100 km.'}
+    function calcKm(){
+  const v=document.getElementById('kmVehicle').value;
+  const km=Number(document.getElementById('kmCount').value)||0;
+  const b=kmRange(v,km);
+  const total=document.getElementById('kmTotal');
+  const details=document.getElementById('kmDetails');
+
+  if(km<=0){
+    total.textContent='Chưa có giá';
+    details.textContent='Vui lòng nhập số kilomet từ 1 đến 100 km.';
+  }else if(km>100){
+    total.textContent='Liên hệ tư vấn';
+    details.textContent='Quãng đường trên 100 km. Nhân viên Biển Đông Car sẽ tư vấn và báo giá riêng.';
+  }else if(b){
+    total.textContent=b.min===b.max?fmt(b.min):fmt(b.min)+' – '+fmt(b.max);
+    details.textContent=`Khung giá tham khảo ${b.low}–${b.high} km. Giá chính thức do nhân viên xác nhận.`;
+  }else{
+    total.textContent='Liên hệ báo giá';
+    details.textContent='Vui lòng liên hệ nhân viên tư vấn.';
+  }
+}
     document.getElementById('kmVehicle').addEventListener('change',calcKm);document.getElementById('kmCount').addEventListener('input',calcKm);calcKm();
 
-    function sendCalc(type){const v=id=>document.getElementById(id).value;let msg='YÊU CẦU BÁO GIÁ BIỂN ĐÔNG CAR';if(type==='hour'){const d=hourly[v('hourVehicle')],h=Number(v('hourCount'));msg+=`\nHình thức: Thuê theo giờ\nLoại xe: ${v('hourVehicle')}\nSố giờ: ${h}\nGiá dự kiến: ${document.getElementById('hourTotal').textContent}\nGhi chú: Định mức tham khảo ${d.km} km cho gói tối thiểu; xác nhận điều kiện vượt km và phụ thu giờ vượt.`}else{msg+=`\nHình thức: Thuê theo km\nĐiểm đón: ${v('mapOrigin')}\nĐiểm đến: ${v('mapDestination')}\nLoại xe: ${v('kmVehicle')}\nQuãng đường khách nhập: ${v('kmCount')} km\nKhoảng giá tham khảo: ${document.getElementById('kmTotal').textContent}`}window.open('https://wa.me/84377522800?text='+encodeURIComponent(msg),'_blank','noopener')}
+    function sendCalc(type){
+  const v=id=>document.getElementById(id).value;
+  const vehicleNames={
+    '7':'Xe 7 chỗ',
+    sedona:'Kia Sedona',
+    carnival:'Kia Carnival',
+    '16':'Xe 16 chỗ',
+    limo:'Limousine'
+  };
+  let msg='YÊU CẦU BÁO GIÁ BIỂN ĐÔNG CAR';
+
+  if(type==='hour'){
+    const d=hourly[v('hourVehicle')];
+    const h=Number(v('hourCount'));
+    msg+=`\nHình thức: Thuê theo giờ
+Loại xe: ${vehicleNames[v('hourVehicle')]||v('hourVehicle')}
+Số giờ: ${h}
+Giá dự kiến: ${document.getElementById('hourTotal').textContent}
+Ghi chú: Định mức tham khảo ${d.km} km cho gói tối thiểu; xác nhận điều kiện vượt km và phụ thu giờ vượt.`;
+  }else{
+    msg+=`\nHình thức: Thuê theo km
+Điểm đón: ${v('mapOrigin')}
+Điểm đến: ${v('mapDestination')}
+Loại xe: ${vehicleNames[v('kmVehicle')]||v('kmVehicle')}
+Quãng đường khách nhập: ${v('kmCount')} km
+Khoảng giá tham khảo: ${document.getElementById('kmTotal').textContent}`;
+  }
+
+  window.open('https://wa.me/84377522800?text='+encodeURIComponent(msg),'_blank','noopener');
+}
 
     document.getElementById('bookingForm').addEventListener('submit',function(e){
       e.preventDefault();
