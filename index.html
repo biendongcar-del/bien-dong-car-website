@@ -445,7 +445,7 @@
     if(!routeSelect || !typeSelect) return;
     var selected=normalizeRoute(routeSelect.value);
     var matched=false;
-    document.querySelectorAll('.route-price-table').forEach(function(table){
+    document.querySelectorAll('.route-price-table[data-route]').forEach(function(table){
       var show=normalizeRoute(table.getAttribute('data-route'))===selected;
       table.style.display=show?'block':'none';
       if(show) matched=true;
