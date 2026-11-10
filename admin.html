@@ -59,7 +59,7 @@ button:disabled{opacity:.45;cursor:not-allowed}.row{display:grid;grid-template-c
 </main>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-functions.js";
 
@@ -79,6 +79,14 @@ let currentUser=null, currentDraftId=null;
 const say = t => $("status").textContent=t;
 const cleanSlug = t => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 $("loginBtn").onclick = async () => {
+  $("loginError").textContent = "Đang chuyển đến Google...";
+  try {
+    await signInWithRedirect(auth, new GoogleAuthProvider());
+  } catch (e) {
+    $("loginError").textContent =
+      "Lỗi đăng nhập: " + e.code + " - " + e.message;
+  }
+};
   $("loginError").textContent = "Đang chuyển đến Google...";
   try {
     await signInWithRedirect(auth, new GoogleAuthProvider());
@@ -136,7 +144,7 @@ onAuthStateChanged(auth,async user=>{
 });
 getRedirectResult(auth).catch(e => {
   $("loginError").textContent =
-    "Lỗi Google trả về: " + e.code + " - " + e.message;
+    "Lỗi Google trả về: " + e.code + k" - " + e.message;
 });
 </script>u
 </body></html>
