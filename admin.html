@@ -79,20 +79,23 @@ let currentUser=null, currentDraftId=null;
 const say = t => $("status").textContent=t;
 const cleanSlug = t => t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 $("loginBtn").onclick = async () => {
-  $("loginError").textContent = "Đang chuyển đến Google...";
+  const btn = $("loginBtn");
+  btn.disabled = true;
+  $("loginError").textContent = "Đang mở đăng nhập Google...";
+
   try {
-    await signInWithRedirect(auth, new GoogleAuthProvider());
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+      prompt: "select_account"
+    });
+
+    await signInWithPopup(auth, provider);
+
   } catch (e) {
     $("loginError").textContent =
       "Lỗi đăng nhập: " + e.code + " - " + e.message;
-  }
-};
-  $("loginError").textContent = "Đang chuyển đến Google...";
-  try {
-    await signInWithRedirect(auth, new GoogleAuthProvider());
-  } catch (e) {
-    $("loginError").textContent =
-      "Lỗi đăng nhập: " + e.code + " - " + e.message;
+  } finally {
+    btn.disabled = false;
   }
 };
 $("newBtn").onclick = () => {["title","slug","keyword","seoTitle","meta","content"].forEach(id=>$(id).value="");$("lang").value="vi";currentDraftId=null;$("publishBtn").disabled=true;say("Đang soạn bài mới.");};
@@ -142,9 +145,6 @@ onAuthStateChanged(auth,async user=>{
  currentUser=user;$("loginBox").classList.add("hidden");$("app").classList.remove("hidden");$("account").textContent=user.email+" · Đăng xuất";
  $("account").onclick=()=>signOut(auth);say("Đăng nhập thành công.");try{await loadDrafts();}catch(e){say("Đã đăng nhập nhưng chưa đọc được dữ liệu: "+e.message);}
 });
-getRedirectResult(auth).catch(e => {
-  $("loginError").textContent =
-    "Lỗi Google trả về: " + e.code + k" - " + e.message;
-});
-</script>u
-</body></html>
+</script>
+</body>
+</html>
