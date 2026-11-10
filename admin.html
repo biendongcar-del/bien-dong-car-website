@@ -63,10 +63,12 @@ import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/
 
 // Điền cấu hình Firebase của dự án sau khi tạo Firebase project.
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_WEB_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  appId: "YOUR_FIREBASE_APP_ID"
+  apiKey: "AIzaSyBbWGmc5nO48O8B1FzWoCuYCbYSOllJGGI",
+  authDomain: "bien-dong-car-admin.firebaseapp.com",
+  projectId: "bien-dong-car-admin",
+  storageBucket: "bien-dong-car-admin.firebasestorage.app",
+  messagingSenderId: "344699513883",
+  appId: "1:344699513883:web:147fa8234837ff5c4c9cbe"
 };
 const ADMIN_EMAIL = "biendongcar@gmail.com";
 const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app), functions = getFunctions(app, "asia-southeast1");
