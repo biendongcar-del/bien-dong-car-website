@@ -16,7 +16,18 @@ input,select,textarea{width:100%;padding:12px;border-radius:10px;border:1px soli
 textarea{min-height:180px;resize:vertical}button{border:0;border-radius:10px;padding:12px 16px;font-weight:750;cursor:pointer;background:var(--gold);color:#17120a}
 button.secondary{background:#29241b;color:var(--text);border:1px solid var(--line)}button.danger{background:#54221f;color:#fff}
 button:disabled{opacity:.45;cursor:not-allowed}.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-.status{padding:10px 12px;border-radius:10px;background:#201d17;color:#f3d98f;margin:12px 0;white-space:pre-wrap}
+.status{
+  padding:10px 12px;
+  border-radius:10px;
+  background:#201d17;
+  color:#f3d98f;
+  margin:12px 0;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  max-width:100%;
+  min-width:0;
+}
 .hidden{display:none!important}.small{font-size:13px;color:var(--muted)}.list-item{padding:12px;border:1px solid var(--line);border-radius:10px;margin:8px 0;display:flex;justify-content:space-between;gap:10px;align-items:center}
 .badge{font-size:12px;color:var(--gold)}.grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
 @media(max-width:760px){.grid2,.row{grid-template-columns:1fr}header{align-items:flex-start;flex-direction:column}.list-item{align-items:flex-start;flex-direction:column}}
@@ -130,10 +141,10 @@ $("publishBtn").onclick=async()=>{
  }catch(e){say("Chưa xuất bản được: "+e.message);}
 };
 async function loadDrafts(){
- const q=query(collection(db,"articles"),where("status","==","draft"),orderBy("updatedAt","desc"));
- const snap=await getDocs(q); $("drafts").innerHTML="";
+ const q=query(collection(db,"articles"),where("status","==","draft"));
+ const snap=await getDocs(q); $("drafts").innerHTML=""; const docs=snap.docs.sort((a,b)=>(b.data().updatedAt?.toMillis?.()||0)-(a.data().updatedAt?.toMillis?.()||0));
  if(snap.empty){$("drafts").innerHTML='<p class="small">Chưa có bản nháp.</p>';return;}
- snap.forEach(x=>{const d=x.data(), el=document.createElement("div");el.className="list-item";
+ docs.forEach(x=>{const d=x.data(), el=document.createElement("div");el.className="list-item";
  const title=document.createElement("strong");title.textContent=d.title||"(Chưa có tiêu đề)";
  const info=document.createElement("div");info.innerHTML=`<span class="badge">${d.lang||"vi"} · BẢN NHÁP</span>`;
  const btn=document.createElement("button");btn.className="secondary";btn.textContent="Mở";btn.onclick=()=>{currentDraftId=x.id;["lang","title","slug","keyword","seoTitle","meta","content"].forEach(k=>$(k).value=d[k]||"");$("publishBtn").disabled=false;checkSEO();say("Đã mở bản nháp.");};
