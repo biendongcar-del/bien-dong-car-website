@@ -62,7 +62,7 @@ button:disabled{opacity:.45;cursor:not-allowed}.row{display:grid;grid-template-c
 </div>
 <div>
 <div class="panel"><h2>Bản nháp đã lưu</h2><div id="drafts"><p class="small">Chưa tải bản nháp.</p></div></div>
-<div class="panel"><h2>Kiểm tra SEO nhanh</h2><div id="seoCheck" class="small">Nhập tiêu đề, từ khóa và mô tả để kiểm tra.</div></div>
+<div class="panel"><h2>Kiểm tra SEO nhanh</h2><div id="seoCheck" class="small" style="white-space:pre-line">Nhập tiêu đề, từ khóa, mô tả và nội dung để kiểm tra.</div><p class="small">Điểm kiểm tra là hướng dẫn biên tập, không bảo đảm thứ hạng Google. Mỗi bài nên tập trung một từ khóa chính và nội dung hữu ích, nguyên bản.</p></div>
 <div class="panel"><h2>Quy trình xuất bản</h2><p class="small">1. Soạn nội dung → 2. Lưu nháp → 3. Kiểm tra thông tin và giá → 4. Bấm Xuất bản. Bài được lưu trạng thái published trong Firestore và hiển thị trong Cẩm nang.</p></div>
 </div>
 </div>
@@ -111,28 +111,38 @@ $("loginBtn").onclick = async () => {
 $("newBtn").onclick = () => {["title","slug","keyword","seoTitle","meta","content"].forEach(id=>$(id).value="");$("lang").value="vi";currentDraftId=null;$("publishBtn").disabled=true;say("Đang soạn bài mới.");};
 $("title").addEventListener("input",()=>{if(!$("slug").dataset.edited)$("slug").value=cleanSlug($("title").value);});
 $("slug").addEventListener("input",()=>{$("slug").dataset.edited="1";});
-["title","keyword","meta","seoTitle"].forEach(id=>$(id).addEventListener("input",checkSEO));
+["title","keyword","meta","seoTitle","content","slug"].forEach(id=>$(id).addEventListener("input",checkSEO));
 function checkSEO(){
- const t=$("title").value.trim(), k=$("keyword").value.trim(), m=$("meta").value.trim(), st=$("seoTitle").value.trim();
- $("seoCheck").innerHTML = [
-  `${t.length>=25&&t.length<=70?"✓":"•"} Tiêu đề: ${t.length} ký tự`,
-  `${st.length>=25&&st.length<=65?"✓":"•"} SEO title: ${st.length} ký tự`,
-  `${m.length>=70&&m.length<=165?"✓":"•"} Meta description: ${m.length} ký tự`,
-  `${k&&t.toLowerCase().includes(k.toLowerCase())?"✓":"•"} Từ khóa chính có trong tiêu đề`
- ].join("<br>");
+ const t=$("title").value.trim(), k=$("keyword").value.trim().toLocaleLowerCase("vi"),
+       m=$("meta").value.trim(), st=$("seoTitle").value.trim(),
+       c=$("content").value.trim(), slug=$("slug").value.trim();
+ const words=c?c.split(/\\s+/).filter(Boolean).length:0;
+ const has=(v)=>!!k&&v.toLocaleLowerCase("vi").includes(k);
+ const checks=[
+  [t.length>=30&&t.length<=70,`Tiêu đề: ${t.length} ký tự (khuyến nghị 30–70)`],
+  [st.length>=30&&st.length<=60,`SEO title: ${st.length} ký tự (khuyến nghị 30–60)`],
+  [m.length>=120&&m.length<=160,`Meta description: ${m.length} ký tự (khuyến nghị 120–160)`],
+  [!!k&&has(t), "Từ khóa chính xuất hiện trong tiêu đề"],
+  [!!k&&has(st), "Từ khóa chính xuất hiện trong SEO title"],
+  [!!k&&has(m), "Từ khóa chính xuất hiện trong meta description"],
+  [!!k&&has(c), "Từ khóa chính xuất hiện trong nội dung"],
+  [/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug), "Slug không dấu, chữ thường, phân cách bằng dấu gạch ngang"],
+  [words>=300,`Độ dài nội dung: ${words} từ (mục tiêu tham khảo từ 300 từ trở lên)`]
+ ];
+ $("seoCheck").textContent=checks.map(([ok,label])=>`${ok?"✓":"•"} ${label}`).join("\\n");
 }
 function getData(){return {lang:$("lang").value,title:$("title").value.trim(),slug:cleanSlug($("slug").value),keyword:$("keyword").value.trim(),seoTitle:$("seoTitle").value.trim(),meta:$("meta").value.trim(),content:$("content").value.trim(),status:"draft",updatedAt:serverTimestamp()};}
 async function saveDraft(){
- const d=getData(); if(!d.title||!d.slug||!d.content)throw Error("Cần nhập tiêu đề, đường dẫn và nội dung.");
+ const d=getData(); if(!d.title||!d.slug||!d.keyword||!d.seoTitle||!d.meta||!d.content)throw Error("Cần nhập tiêu đề, slug, từ khóa chính, SEO title, meta description và nội dung.");
  if(currentDraftId) await updateDoc(doc(db,"articles",currentDraftId),d);
  else {const ref=await addDoc(collection(db,"articles"),{...d,createdBy:currentUser.email,createdAt:serverTimestamp()});currentDraftId=ref.id;}
- $("publishBtn").disabled=false; say("Đã lưu bản nháp."); await loadDrafts();
+ $("publishBtn").disabled=false; checkSEO(); say("Đã lưu bản nháp."); await loadDrafts();
 }
 $("saveBtn").onclick=async()=>{try{await saveDraft();}catch(e){say("Không lưu được: "+e.message);}};
 $("publishBtn").onclick=async()=>{
  try{
   await saveDraft();
-  if(!confirm("Anh đã kiểm tra giá, tuyến đường và nội dung chính xác chưa? Xuất bản bài này lên website?"))return;
+  if(!$("keyword").value.trim()||!$("seoTitle").value.trim()||!$("meta").value.trim()){say("Cần bổ sung từ khóa chính, SEO title và meta description trước khi xuất bản.");return;}\n  if(!confirm("Anh đã kiểm tra giá, tuyến đường, từ khóa và nội dung chính xác chưa? Xuất bản bài này lên website?"))return;
   say("Đang xuất bản...");
   await updateDoc(doc(db,"articles",currentDraftId),{status:"published",publishedAt:serverTimestamp(),publishedBy:currentUser.email,updatedAt:serverTimestamp()});
   say("Đã xuất bản bài viết. Bài sẽ xuất hiện trong Cẩm nang sau khi tải lại trang."); $("publishBtn").disabled=true; currentDraftId=null; await loadDrafts();
