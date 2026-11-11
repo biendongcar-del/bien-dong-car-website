@@ -108,7 +108,7 @@ $("loginBtn").onclick = async () => {
     btn.disabled = false;
   }
 };
-$("newBtn").onclick = () => {["title","slug","keyword","seoTitle","meta","content"].forEach(id=>$(id).value="");$("lang").value="vi";currentDraftId=null;$("publishBtn").disabled=true;say("Đang soạn bài mới.");};
+$("newBtn").onclick = () => {["title","slug","keyword","seoTitle","meta","content"].forEach(id=>$(id).value="");$("slug").dataset.edited="";$("lang").value="vi";currentDraftId=null;$("publishBtn").disabled=true;checkSEO();say("Đang soạn bài mới.");};
 $("title").addEventListener("input",()=>{if(!$("slug").dataset.edited)$("slug").value=cleanSlug($("title").value);});
 $("slug").addEventListener("input",()=>{$("slug").dataset.edited="1";});
 ["title","keyword","meta","seoTitle","content","slug"].forEach(id=>$(id).addEventListener("input",checkSEO));
@@ -155,7 +155,7 @@ async function loadDrafts(){
  if(snap.empty){$("drafts").innerHTML='<p class="small">Chưa có bản nháp.</p>';return;}
  docs.forEach(x=>{const d=x.data(), el=document.createElement("div");el.className="list-item";
  const title=document.createElement("strong");title.textContent=d.title||"(Chưa có tiêu đề)";
- const info=document.createElement("div");info.innerHTML=`<span class="badge">${d.lang||"vi"} · BẢN NHÁP</span>`;
+ const info=document.createElement("div");info.className="small";info.textContent=(d.lang||"vi")+" · BẢN NHÁP";
  const btn=document.createElement("button");btn.className="secondary";btn.textContent="Mở";btn.onclick=()=>{currentDraftId=x.id;["lang","title","slug","keyword","seoTitle","meta","content"].forEach(k=>$(k).value=d[k]||"");$("publishBtn").disabled=false;checkSEO();say("Đã mở bản nháp.");};
  el.append(title,info,btn);$("drafts").append(el);});
 }
