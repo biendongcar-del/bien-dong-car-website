@@ -83,13 +83,27 @@
     </section>
   </main>
   <footer>© <span id="year"></span> BIỂN ĐÔNG CAR · Dịch vụ xe du lịch &amp; xe hợp đồng cao cấp</footer>
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyBbWGmc5nO48O8B1FzWoCuYCbYSOllJGGI",
+      authDomain: "bien-dong-car-admin.firebaseapp.com",
+      projectId: "bien-dong-car-admin",
+      storageBucket: "bien-dong-car-admin.firebasestorage.app",
+      messagingSenderId: "344699513883",
+      appId: "1:344699513883:web:147fa8234837ff5c4c9cbe"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
     (() => {
       const box = document.getElementById("articles");
       const status = document.getElementById("status");
       const search = document.getElementById("search");
       const language = document.getElementById("language");
       let all = [];
+      const params = new URLSearchParams(location.search);
+      const articleId = params.get("id");
       const langName = {vi:"Tiếng Việt",en:"English",zh:"中文",ko:"한국어",ja:"日本語"};
       const make = (tag, cls, value) => {
         const el = document.createElement(tag);
@@ -101,7 +115,7 @@
         const q = search.value.trim().toLocaleLowerCase();
         const lang = language.value;
         const items = all.filter(x => {
-          const hay = [x.title, x.description, x.lang].join(" ").toLocaleLowerCase();
+          const hay = [x.title, x.meta, x.keyword, x.lang].join(" ").toLocaleLowerCase();
           return (!q || hay.includes(q)) && (!lang || (x.lang || "vi") === lang);
         });
         box.replaceChildren();
@@ -119,10 +133,10 @@
           const card = make("article", "article");
           const meta = make("div", "meta", langName[x.lang || "vi"] || "Bài viết");
           const h = make("h2", "", x.title || "Bài viết BIỂN ĐÔNG CAR");
-          const p = make("p", "", x.description || "");
+          const p = make("p", "", x.meta || x.description || "");
           const a = make("a", "read", "Đọc bài viết →");
-          a.href = typeof x.url === "string" ? x.url : "#";
-          if (a.href === "#") a.setAttribute("aria-disabled", "true");
+          a.href = "?id=" + encodeURIComponent(x.id);
+          a.setAttribute("aria-label", "Đọc bài viết " + (x.title || ""));
           card.append(meta, h, p, a);
           box.append(card);
         });
@@ -130,16 +144,32 @@
       search.addEventListener("input", render);
       language.addEventListener("change", render);
       document.getElementById("year").textContent = new Date().getFullYear();
-      fetch("./articles.json", {cache:"no-store"})
-        .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-        .then(data => {
-          if (!Array.isArray(data)) throw new Error("Danh sách bài viết không đúng định dạng.");
-          all = data;
+      getDocs(query(collection(db, "articles"), where("status", "==", "published")))
+        .then(snapshot => {
+          all = snapshot.docs.map(d => ({id:d.id, ...d.data()}));
+          all.sort((a,b) => (b.publishedAt?.toMillis?.() || b.updatedAt?.toMillis?.() || 0) - (a.publishedAt?.toMillis?.() || a.updatedAt?.toMillis?.() || 0));
+          if (articleId) {
+            const item = all.find(x => x.id === articleId);
+            if (!item) {
+              box.replaceChildren(make("div","empty","Bài viết không tồn tại hoặc chưa được xuất bản."));
+              status.textContent = "Không tìm thấy bài viết.";
+              return;
+            }
+            document.title = (item.seoTitle || item.title || "Bài viết") + " | BIỂN ĐÔNG CAR";
+            const heading = make("h1","",item.title || "Bài viết BIỂN ĐÔNG CAR");
+            const body = make("div","article-body",item.content || "");
+            body.style.whiteSpace = "pre-wrap";
+            body.style.overflowWrap = "anywhere";
+            box.replaceChildren(heading, body);
+            status.textContent = "Bài viết · " + (item.lang || "vi");
+            return;
+          }
           render();
         })
-        .catch(() => {
-          box.replaceChildren(make("div","empty","Chưa tải được danh sách bài viết. Vui lòng thử tải lại sau."));
-          status.textContent = "Không đọc được articles.json.";
+        .catch(error => {
+          console.error("Firestore articles read failed:", error);
+          box.replaceChildren(make("div","empty","Chưa tải được bài viết. Vui lòng thử lại sau."));
+          status.textContent = "Không đọc được bài viết từ Firestore. Vui lòng kiểm tra Firestore Rules.";
         });
     })();
   </script>
