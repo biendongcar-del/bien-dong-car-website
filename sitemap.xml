@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://biendongcar-del.github.io/bien-dong-car-website/</loc></url>
+  <url><loc>https://biendongcar-del.github.io/bien-dong-car-website/en/</loc></url>
+  <url><loc>https://biendongcar-del.github.io/bien-dong-car-website/zh/</loc></url>
+  <url><loc>https://biendongcar-del.github.io/bien-dong-car-website/ko/</loc></url>
   <url><loc>https://biendongcar-del.github.io/bien-dong-car-website/bai-viet/</loc></url>
   <url><loc>https://biendongcar-del.github.io/bien-dong-car-website/bai-viet/thue-xe-du-lich-tphcm.html</loc></url>
   <url><loc>https://biendongcar-del.github.io/bien-dong-car-website/bai-viet/dua-don-san-bay-tan-son-nhat.html</loc></url>
