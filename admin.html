@@ -63,7 +63,7 @@ button:disabled{opacity:.45;cursor:not-allowed}.row{display:grid;grid-template-c
 <div>
 <div class="panel"><h2>Bản nháp đã lưu</h2><div id="drafts"><p class="small">Chưa tải bản nháp.</p></div></div>
 <div class="panel"><h2>Kiểm tra SEO nhanh</h2><div id="seoCheck" class="small">Nhập tiêu đề, từ khóa và mô tả để kiểm tra.</div></div>
-<div class="panel"><h2>Quy trình xuất bản</h2><p class="small">1. Soạn nội dung → 2. Lưu nháp → 3. Kiểm tra thông tin và giá → 4. Bấm Xuất bản. Bài công khai sẽ có URL riêng trong mục Cẩm nang.</p></div>
+<div class="panel"><h2>Quy trình xuất bản</h2><p class="small">1. Soạn nội dung → 2. Lưu nháp → 3. Kiểm tra thông tin và giá → 4. Bấm Xuất bản. Bài được lưu trạng thái published trong Firestore và hiển thị trong Cẩm nang.</p></div>
 </div>
 </div>
 </section>
@@ -71,8 +71,7 @@ button:disabled{opacity:.45;cursor:not-allowed}.row{display:grid;grid-template-c
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, query, where, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-functions.js";
+import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 // Điền cấu hình Firebase của dự án sau khi tạo Firebase project.
 const firebaseConfig = {
@@ -84,7 +83,7 @@ const firebaseConfig = {
   appId: "1:344699513883:web:147fa8234837ff5c4c9cbe"
 };
 const ADMIN_EMAIL = "biendongcar@gmail.com";
-const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app), functions = getFunctions(app, "asia-southeast1");
+const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app);
 const $ = id => document.getElementById(id);
 let currentUser=null, currentDraftId=null;
 const say = t => $("status").textContent=t;
@@ -135,9 +134,8 @@ $("publishBtn").onclick=async()=>{
   await saveDraft();
   if(!confirm("Anh đã kiểm tra giá, tuyến đường và nội dung chính xác chưa? Xuất bản bài này lên website?"))return;
   say("Đang xuất bản...");
-  const publish=httpsCallable(functions,"publishArticle");
-  const result=await publish({articleId:currentDraftId});
-  say("Đã xuất bản: "+result.data.url); $("publishBtn").disabled=true; await loadDrafts();
+  await updateDoc(doc(db,"articles",currentDraftId),{status:"published",publishedAt:serverTimestamp(),publishedBy:currentUser.email,updatedAt:serverTimestamp()});
+  say("Đã xuất bản bài viết. Bài sẽ xuất hiện trong Cẩm nang sau khi tải lại trang."); $("publishBtn").disabled=true; currentDraftId=null; await loadDrafts();
  }catch(e){say("Chưa xuất bản được: "+e.message);}
 };
 async function loadDrafts(){
