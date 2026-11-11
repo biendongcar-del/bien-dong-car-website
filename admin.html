@@ -133,7 +133,7 @@ function checkSEO(){
 }
 function getData(){return {lang:$("lang").value,title:$("title").value.trim(),slug:cleanSlug($("slug").value),keyword:$("keyword").value.trim(),seoTitle:$("seoTitle").value.trim(),meta:$("meta").value.trim(),content:$("content").value.trim(),status:"draft",updatedAt:serverTimestamp()};}
 async function saveDraft(){
- const d=getData(); if(!d.title||!d.slug||!d.keyword||!d.seoTitle||!d.meta||!d.content)throw Error("Cần nhập tiêu đề, slug, từ khóa chính, SEO title, meta description và nội dung.");
+ const d=getData(); if(!d.title||!d.slug||!d.content)throw Error("Cần nhập tiêu đề, slug và nội dung để lưu bản nháp.");
  if(currentDraftId) await updateDoc(doc(db,"articles",currentDraftId),d);
  else {const ref=await addDoc(collection(db,"articles"),{...d,createdBy:currentUser.email,createdAt:serverTimestamp()});currentDraftId=ref.id;}
  $("publishBtn").disabled=false; checkSEO(); say("Đã lưu bản nháp."); await loadDrafts();
@@ -142,7 +142,9 @@ $("saveBtn").onclick=async()=>{try{await saveDraft();}catch(e){say("Không lưu 
 $("publishBtn").onclick=async()=>{
  try{
   await saveDraft();
-  if(!$("keyword").value.trim()||!$("seoTitle").value.trim()||!$("meta").value.trim()){say("Cần bổ sung từ khóa chính, SEO title và meta description trước khi xuất bản.");return;}\n  if(!confirm("Anh đã kiểm tra giá, tuyến đường, từ khóa và nội dung chính xác chưa? Xuất bản bài này lên website?"))return;
+  if(!$("keyword").value.trim()||!$("seoTitle").value.trim()||!$("meta").value.trim()){say("Cần bổ sung từ khóa chính, SEO title và meta description trước khi xuất bản.");return;}
+  if(!$("keyword").value.trim()||!$("seoTitle").value.trim()||!$("meta").value.trim()){say("Cần bổ sung từ khóa chính, SEO title và meta description trước khi xuất bản.");return;}
+  if(!confirm("Anh đã kiểm tra giá, tuyến đường, từ khóa và nội dung chính xác chưa? Xuất bản bài này lên website?"))return;
   say("Đang xuất bản...");
   await updateDoc(doc(db,"articles",currentDraftId),{status:"published",publishedAt:serverTimestamp(),publishedBy:currentUser.email,updatedAt:serverTimestamp()});
   say("Đã xuất bản bài viết. Bài sẽ xuất hiện trong Cẩm nang sau khi tải lại trang."); $("publishBtn").disabled=true; currentDraftId=null; await loadDrafts();
