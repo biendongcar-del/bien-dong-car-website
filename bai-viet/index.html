@@ -112,6 +112,42 @@
         el.textContent = value || "";
         return el;
       };
+      function sanitizeArticleContent(html) {
+        const parsed = new DOMParser().parseFromString(String(html), "text/html");
+        const allowed = new Set(["P","H2","H3","UL","OL","LI","STRONG","B","EM","I","BR","A","BLOCKQUOTE"]);
+        const discarded = new Set(["SCRIPT","STYLE","IFRAME","OBJECT","EMBED","SVG","MATH","TEMPLATE","FORM","INPUT","BUTTON"]);
+        function copyNode(node) {
+          if (node.nodeType === Node.TEXT_NODE) return document.createTextNode(node.nodeValue || "");
+          if (node.nodeType !== Node.ELEMENT_NODE) return document.createDocumentFragment();
+          const tag = node.tagName;
+          if (discarded.has(tag)) return document.createDocumentFragment();
+          if (!allowed.has(tag)) {
+            const fragment = document.createDocumentFragment();
+            [...node.childNodes].forEach(child => fragment.append(copyNode(child)));
+            return fragment;
+          }
+          const clean = document.createElement(tag.toLowerCase());
+          if (tag === "A") {
+            const href = (node.getAttribute("href") || "").trim();
+            if (href.startsWith("#")) clean.setAttribute("href", href);
+            else {
+              try {
+                const url = new URL(href, location.href);
+                if (["http:","https:","mailto:","tel:"].includes(url.protocol)) clean.setAttribute("href", href);
+              } catch (_) {}
+            }
+            if (clean.hasAttribute("href") && /^https?:/i.test(clean.href)) {
+              clean.setAttribute("target", "_blank");
+              clean.setAttribute("rel", "noopener noreferrer");
+            }
+          }
+          [...node.childNodes].forEach(child => clean.append(copyNode(child)));
+          return clean;
+        }
+        const output = document.createDocumentFragment();
+        [...parsed.body.childNodes].forEach(node => output.append(copyNode(node)));
+        return output;
+      }
       function render() {
         const q = search.value.trim().toLocaleLowerCase();
         const lang = language.value;
@@ -158,9 +194,10 @@
             }
             document.title = (item.seoTitle || item.title || "Bài viết") + " | BIỂN ĐÔNG CAR";
             const heading = make("h1","",item.title || "Bài viết BIỂN ĐÔNG CAR");
-            const body = make("div","article-body",item.content || "");
+            const body = make("div","article-body");
             body.style.whiteSpace = "pre-wrap";
             body.style.overflowWrap = "anywhere";
+            body.append(sanitizeArticleContent(item.content || ""));
             box.replaceChildren(heading, body);
             status.textContent = "Bài viết · " + (item.lang || "vi");
             return;
