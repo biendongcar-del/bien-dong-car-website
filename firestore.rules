@@ -1,0 +1,23 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'biendongcar@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    // Public visitors may only read published articles.
+    // Only the verified administrator can create, update or delete articles.
+    match /articles/{articleId} {
+      allow get, list: if isAdmin() || resource.data.status == 'published';
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Keep all other Firestore collections private to the administrator.
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+  }
+}
