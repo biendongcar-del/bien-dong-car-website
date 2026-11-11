@@ -101,7 +101,8 @@
       const status = document.getElementById("status");
       const search = document.getElementById("search");
       const language = document.getElementById("language");
-      let all = [];
+      const staticArticles = [{"title":"Thuê xe du lịch tại TP.HCM","meta":"Kinh nghiệm chọn xe phù hợp cho gia đình, nhóm khách và chuyến đi.","lang":"vi","href":"thue-xe-du-lich-tphcm.html"},{"title":"Đưa đón sân bay Tân Sơn Nhất","meta":"Hướng dẫn đặt xe sân bay, chuẩn bị thông tin chuyến bay và điểm đón.","lang":"vi","href":"dua-don-san-bay-tan-son-nhat.html"},{"title":"Thuê xe Sài Gòn đi Vũng Tàu","meta":"Chọn xe và chuẩn bị lịch trình đi Vũng Tàu.","lang":"vi","href":"thue-xe-sai-gon-vung-tau.html"},{"title":"Thuê xe Sài Gòn đi Phan Thiết – Mũi Né","meta":"Kinh nghiệm chọn xe và sắp xếp chuyến đi biển.","lang":"vi","href":"thue-xe-sai-gon-phan-thiet-mui-ne.html"},{"title":"Thuê xe Sài Gòn đi Đà Lạt","meta":"Những lưu ý cho hành trình đường dài đến Đà Lạt.","lang":"vi","href":"thue-xe-sai-gon-da-lat.html"},{"title":"Thuê xe Sài Gòn đi Cần Thơ","meta":"Đặt xe riêng cho gia đình, công tác và khám phá miền Tây.","lang":"vi","href":"thue-xe-sai-gon-can-tho.html"},{"title":"Thuê xe hợp đồng doanh nghiệp","meta":"Giải pháp đưa đón nhân viên, chuyên gia và khách hàng.","lang":"vi","href":"thue-xe-hop-dong-doanh-nghiep.html"},{"title":"Thuê xe Limousine","meta":"Cách chọn dòng xe cao cấp theo số chỗ và nhu cầu.","lang":"vi","href":"thue-xe-limousine.html"}];
+      let all = staticArticles.slice();
       const params = new URLSearchParams(location.search);
       const articleId = params.get("id");
       const langName = {vi:"Tiếng Việt",en:"English",zh:"中文",ko:"한국어",ja:"日本語"};
@@ -135,7 +136,7 @@
           const h = make("h2", "", x.title || "Bài viết BIỂN ĐÔNG CAR");
           const p = make("p", "", x.meta || x.description || "");
           const a = make("a", "read", "Đọc bài viết →");
-          a.href = "?id=" + encodeURIComponent(x.id);
+          a.href = x.href || ("?id=" + encodeURIComponent(x.id));
           a.setAttribute("aria-label", "Đọc bài viết " + (x.title || ""));
           card.append(meta, h, p, a);
           box.append(card);
@@ -146,7 +147,7 @@
       document.getElementById("year").textContent = new Date().getFullYear();
       getDocs(query(collection(db, "articles"), where("status", "==", "published")))
         .then(snapshot => {
-          all = snapshot.docs.map(d => ({id:d.id, ...d.data()}));
+          all = staticArticles.concat(snapshot.docs.map(d => ({id:d.id, ...d.data()})));
           all.sort((a,b) => (b.publishedAt?.toMillis?.() || b.updatedAt?.toMillis?.() || 0) - (a.publishedAt?.toMillis?.() || a.updatedAt?.toMillis?.() || 0));
           if (articleId) {
             const item = all.find(x => x.id === articleId);
@@ -168,8 +169,9 @@
         })
         .catch(error => {
           console.error("Firestore articles read failed:", error);
-          box.replaceChildren(make("div","empty","Chưa tải được bài viết. Vui lòng thử lại sau."));
-          status.textContent = "Không đọc được bài viết từ Firestore. Vui lòng kiểm tra Firestore Rules.";
+          all = staticArticles.slice();
+          render();
+          status.textContent = "Đang hiển thị cẩm nang tĩnh; bài viết mới từ hệ thống quản trị sẽ tải khi Firestore cho phép đọc.";
         });
     })();
   </script>
