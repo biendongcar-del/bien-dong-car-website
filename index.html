@@ -872,7 +872,8 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
  const rf=$('routeBookingForm');
  if(rf){
   const routeSelect=document.createElement('select');routeSelect.id='bdcRouteChoice';routeSelect.required=true;
-  routeSelect.innerHTML='<option value="">-- Chọn tuyến trong danh mục 100 tuyến --</option>'+routes.map(r=>'<option value="'+String(r.name).replace(/&/g,'&amp;').replace(/"/g,'&quot;')+'">'+r.name+'</option>').join('');
+  const routePlaceholder=document.createElement('option');routePlaceholder.value='';routePlaceholder.textContent='-- Chọn tuyến trong danh mục 100 tuyến --';routeSelect.appendChild(routePlaceholder);
+  routes.forEach(r=>{const option=document.createElement('option');option.value=String(r.name||'');option.textContent=String(r.name||'');routeSelect.appendChild(option);});
   const routeLabel=document.createElement('label');routeLabel.textContent='Chọn tuyến có sẵn (để tính giá)';routeLabel.appendChild(routeSelect);
   const typeLabel=rf.querySelector('#rbType')?.parentElement;
   if(typeLabel)typeLabel.insertAdjacentElement('afterend',routeLabel);
@@ -883,6 +884,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
   const update=()=>{
    const route=findRoute(routeSelect.value);const v=$('rbVehicle')?.value||'';const round=fare.value==='round';
    const kind=$('rbType')?.value||'Liên tỉnh';
+   routeSelect.required=(kind==='Liên tỉnh'||kind==='Thuê xe theo yêu cầu');
    const q=(kind==='Liên tỉnh'||kind==='Thuê xe theo yêu cầu')?quoteFor(route,v,round):{value:null,label:'Liên hệ báo giá'};
    const detail=kind==='Đưa đón sân bay'?'Dịch vụ sân bay chưa có bảng giá cố định theo điểm đón/trả trong danh mục; nhân viên sẽ báo giá theo chuyến.':kind==='City Tour'?'City Tour cần chọn chương trình và thời lượng; chưa có đơn giá đầy đủ cho mọi loại xe trong danh mục.':(route?(route.note||'Giá tham khảo theo danh mục tuyến; cần xác nhận lại trước khi chốt xe.'):'Chọn tuyến trong danh mục, loại xe và một chiều/khứ hồi để xem giá.');
    show(box,q.label,detail);
