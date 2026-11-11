@@ -143,7 +143,6 @@ $("publishBtn").onclick=async()=>{
  try{
   await saveDraft();
   if(!$("keyword").value.trim()||!$("seoTitle").value.trim()||!$("meta").value.trim()){say("Cần bổ sung từ khóa chính, SEO title và meta description trước khi xuất bản.");return;}
-  if(!$("keyword").value.trim()||!$("seoTitle").value.trim()||!$("meta").value.trim()){say("Cần bổ sung từ khóa chính, SEO title và meta description trước khi xuất bản.");return;}
   if(!confirm("Anh đã kiểm tra giá, tuyến đường, từ khóa và nội dung chính xác chưa? Xuất bản bài này lên website?"))return;
   say("Đang xuất bản...");
   await updateDoc(doc(db,"articles",currentDraftId),{status:"published",publishedAt:serverTimestamp(),publishedBy:currentUser.email,updatedAt:serverTimestamp()});
