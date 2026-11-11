@@ -116,7 +116,7 @@ function checkSEO(){
  const t=$("title").value.trim(), k=$("keyword").value.trim().toLocaleLowerCase("vi"),
        m=$("meta").value.trim(), st=$("seoTitle").value.trim(),
        c=$("content").value.trim(), slug=$("slug").value.trim();
- const words=c?c.split(/\\s+/).filter(Boolean).length:0;
+ const words=c?c.split(/\s+/).filter(Boolean).length:0;
  const has=(v)=>!!k&&v.toLocaleLowerCase("vi").includes(k);
  const checks=[
   [t.length>=30&&t.length<=70,`Tiêu đề: ${t.length} ký tự (khuyến nghị 30–70)`],
@@ -129,7 +129,7 @@ function checkSEO(){
   [/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug), "Slug không dấu, chữ thường, phân cách bằng dấu gạch ngang"],
   [words>=300,`Độ dài nội dung: ${words} từ (mục tiêu tham khảo từ 300 từ trở lên)`]
  ];
- $("seoCheck").textContent=checks.map(([ok,label])=>`${ok?"✓":"•"} ${label}`).join("\\n");
+ $("seoCheck").textContent=checks.map(([ok,label])=>`${ok?"✓":"•"} ${label}`).join("\n");
 }
 function getData(){return {lang:$("lang").value,title:$("title").value.trim(),slug:cleanSlug($("slug").value),keyword:$("keyword").value.trim(),seoTitle:$("seoTitle").value.trim(),meta:$("meta").value.trim(),content:$("content").value.trim(),status:"draft",updatedAt:serverTimestamp()};}
 async function saveDraft(){
