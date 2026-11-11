@@ -135,7 +135,7 @@
           const h = make("h2", "", x.title || "Bài viết BIỂN ĐÔNG CAR");
           const p = make("p", "", x.meta || x.description || "");
           const a = make("a", "read", "Đọc bài viết →");
-          a.href = x.slug ? "./" + encodeURIComponent(x.slug) + "/" : "?id=" + encodeURIComponent(x.id);
+          a.href = "?id=" + encodeURIComponent(x.id);
           a.setAttribute("aria-label", "Đọc bài viết " + (x.title || ""));
           card.append(meta, h, p, a);
           box.append(card);
