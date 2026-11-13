@@ -13,12 +13,11 @@
  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
  <meta name="apple-mobile-web-app-title" content="Biển Đông Car">
  <link rel="manifest" href="manifest.webmanifest">
- <link rel="apple-touch-icon" href="assets/pwa-192.png">
  <link rel="canonical" href="https://biendongcar-del.github.io/bien-dong-car-website/">
  <meta property="og:title" content="Biển Đông Car | Dịch vụ xe du lịch & xe hợp đồng">
  <meta property="og:description" content="Xe riêng có tài xế, đưa đón sân bay và hành trình liên tỉnh. Gọi 0377 522 800.">
  <meta property="og:type" content="website">
- <meta property="og:image" content="https://biendongcar-del.github.io/bien-dong-car-website/assets/banner-bien-dong-car-new.png">
+ <meta property="og:image" content="https://biendongcar-del.github.io/bien-dong-car-website/assets/banner-bien-dong-car.jpeg">
  <link rel="alternate" hreflang="vi" href="https://biendongcar-del.github.io/bien-dong-car-website/">
  <link rel="alternate" hreflang="en" href="https://biendongcar-del.github.io/bien-dong-car-website/en/">
  <link rel="alternate" hreflang="zh-CN" href="https://biendongcar-del.github.io/bien-dong-car-website/zh/">
@@ -267,7 +266,7 @@
  
 
 
- <section class="brand-banner" aria-label="BIỂN ĐÔNG CAR – dịch vụ xe du lịch và xe hợp đồng cao cấp"><img src="assets/banner-bien-dong-car-new.png" onerror="this.onerror=null;this.src='assets/banner-bien-dong-car.jpeg'" alt="BIỂN ĐÔNG CAR – dịch vụ xe du lịch, xe hợp đồng cao cấp và đưa đón sân bay" fetchpriority="high" decoding="async"></section>
+ <section class="brand-banner" aria-label="BIỂN ĐÔNG CAR – dịch vụ xe du lịch và xe hợp đồng cao cấp"><img src="assets/banner-bien-dong-car.jpeg" onerror="this.onerror=null;this.src='assets/banner-bien-dong-car.jpeg'" alt="BIỂN ĐÔNG CAR – dịch vụ xe du lịch, xe hợp đồng cao cấp và đưa đón sân bay" fetchpriority="high" decoding="async"></section>
  <main>
  <section class="hero"><div class="wrap">
  <div class="eyebrow">Private car & chauffeur service</div>
@@ -447,8 +446,7 @@
  function openQuickModal(){document.getElementById('quickModal').classList.add('open')}
  function closeQuickModal(){document.getElementById('quickModal').classList.remove('open')}
  function buildQuickMessage(prefix,ids){const v=id=>document.getElementById(id)?.value?.trim()||'';const km=v(ids.km);return ['YÊU CẦU BÁO GIÁ / ĐẶT XE – BIỂN ĐÔNG CAR',prefix,'Họ tên: '+(v(ids.name)||'Chưa cung cấp'),'Điện thoại: '+(v(ids.phone)||'Chưa cung cấp'),'Điểm đón: '+v(ids.origin),'Điểm đến: '+v(ids.destination),'Loại xe: '+(v(ids.vehicle)||'Khách cần tư vấn'),'Quãng đường dự kiến: '+(km?km+' km':'Chưa cung cấp'),'Ngày đi: '+(v(ids.date)||'Chưa xác định'),'Ghi chú: '+(v(ids.note)||'Không có'),km&&Number(km)>1000?'Lưu ý: Trên 1.000 km – nhân viên Biển Đông Car sẽ báo giá riêng.':(km?'Lưu ý: Giá tham khảo, cần nhân viên xác nhận.':'')].filter(Boolean).join('\n')}
- const stickyQuoteForm=document.getElementById('stickyQuoteForm'); if(stickyQuoteForm){stickyQuoteForm.addEventListener('submit',function(e){e.preventDefault();openChannelModal(buildQuickMessage('Yêu cầu từ bảng báo giá nhanh luôn hiển thị',{name:'stickyName',phone:'stickyPhone',origin:'stickyOrigin',destination:'stickyDestination',km:'stickyKm',vehicle:'stickyVehicle',date:'stickyDate',note:''}));});}
- document.getElementById('mobileQuickForm').addEventListener('submit',function(e){e.preventDefault();closeQuickModal();openChannelModal(buildQuickMessage('Yêu cầu từ bảng báo giá nhanh trên điện thoại',{name:'mobileName',phone:'mobilePhone',origin:'mobileOrigin',destination:'mobileDestination',km:'mobileKm',vehicle:'mobileVehicle',date:'mobileDate',note:'mobileNote'}));});
+ // The unified price module below owns mobile and sticky quote submission; keep one submit handler per form.
 
 
  // Google Maps DirectionsService integration. Add the restricted browser API key below after setup.
