@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#090909"/>
+  <rect x="18" y="18" width="476" height="476" rx="82" fill="none" stroke="#d7b45a" stroke-width="10"/>
+  <path d="M92 292l30-84c8-22 27-36 50-36h148c23 0 42 14 50 36l30 84" fill="none" stroke="#e2bd62" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M74 292h364v65c0 17-14 31-31 31h-24v-34H129v34h-24c-17 0-31-14-31-31z" fill="#d7b45a"/>
+  <path d="M143 273h226l-20-53c-4-11-14-18-26-18H189c-12 0-22 7-26 18z" fill="#17130b"/>
+  <circle cx="153" cy="355" r="23" fill="#090909" stroke="#e2bd62" stroke-width="9"/>
+  <circle cx="359" cy="355" r="23" fill="#090909" stroke="#e2bd62" stroke-width="9"/>
+  <text x="256" y="450" text-anchor="middle" fill="#e2bd62" font-family="Arial,sans-serif" font-size="42" font-weight="700" letter-spacing="4">BDC</text>
+</svg>
