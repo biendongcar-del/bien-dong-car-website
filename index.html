@@ -545,7 +545,7 @@
 
 
 <script>
-/* BIEN DONG CAR: send each booking to n8n and keep the separate channel chooser */
+/* BIEN DONG CAR TRAVEL: send each booking to n8n and keep the separate channel chooser */
 (function(){
  'use strict';
  const WEBHOOK = 'https://biendongcar.app.n8n.cloud/webhook/362d8b44-8220-4049-bbc2-dcfd568897b5';
@@ -606,7 +606,7 @@
  status('Đã gửi yêu cầu từ website đến Webhook. Đơn đang chờ xác nhận trong n8n/Google Sheets; anh kiểm tra Executions để xác nhận.',true);
  return true;
  }catch(error){
- console.error('BIEN DONG CAR booking webhook error:',error);
+ console.error('BIEN DONG CAR TRAVEL booking webhook error:',error);
  status('Chưa chuyển được booking. Vui lòng thử lại hoặc gọi 0377 522 800.',false);
  return false;
  }finally{sending=false;}
