@@ -1,0 +1,19 @@
+{
+  "name": "BIỂN ĐÔNG CAR - Thuê xe du lịch",
+  "short_name": "Biển Đông Car",
+  "description": "Dịch vụ xe du lịch có tài xế, xe hợp đồng, đưa đón sân bay và hành trình liên tỉnh.",
+  "lang": "vi",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090909",
+  "theme_color": "#090909",
+  "icons": [
+    {
+      "src": "assets/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -13,12 +13,11 @@
  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
  <meta name="apple-mobile-web-app-title" content="Biển Đông Car">
  <link rel="manifest" href="manifest.webmanifest">
- <link rel="apple-touch-icon" href="assets/pwa-192.png">
  <link rel="canonical" href="https://biendongcar-del.github.io/bien-dong-car-website/">
  <meta property="og:title" content="Biển Đông Car | Dịch vụ xe du lịch & xe hợp đồng">
  <meta property="og:description" content="Xe riêng có tài xế, đưa đón sân bay và hành trình liên tỉnh. Gọi 0377 522 800.">
  <meta property="og:type" content="website">
- <meta property="og:image" content="https://biendongcar-del.github.io/bien-dong-car-website/assets/banner-bien-dong-car-new.png">
+ <meta property="og:image" content="https://biendongcar-del.github.io/bien-dong-car-website/assets/banner-bien-dong-car.jpeg">
  <link rel="alternate" hreflang="vi" href="https://biendongcar-del.github.io/bien-dong-car-website/">
  <link rel="alternate" hreflang="en" href="https://biendongcar-del.github.io/bien-dong-car-website/en/">
  <link rel="alternate" hreflang="zh-CN" href="https://biendongcar-del.github.io/bien-dong-car-website/zh/">
@@ -261,13 +260,13 @@
  <header><div class="wrap nav">
  <a class="brand" href="./" aria-label="Biển Đông Car"><img src="assets/logo-bien-dong-car.jpeg" alt="Logo Biển Đông Car"></a>
  <nav class="links" aria-label="Điều hướng chính"><a href="#dich-vu">Dịch vụ</a><a href="#doi-xe">Đội xe</a><a href="#tuyen-duong">Tuyến xe</a><a href="#bang-gia">Bảng giá</a><a href="#tinh-gia">Tính giá</a><a href="bai-viet/">Cẩm nang</a><a href="#lien-he">Liên hệ</a></nav>
- <nav class="language-switch" aria-label="Chọn ngôn ngữ"><a href="./" lang="vi" aria-label="Tiếng Việt">🇻🇳 VI</a><a href="en/" lang="en" aria-label="English">🇬🇧 EN</a><a href="zh/" lang="zh" aria-label="中文">🇨🇳 中文</a><a href="ko/" lang="ko" aria-label="한국어">🇰🇷 KO</a><a href="ja/" lang="ja" aria-label="日本語">🇯🇵 JA</a></nav>
+ <nav class="language-switch" aria-label="Chọn ngôn ngữ"><a href="./" lang="vi" aria-label="Tiếng Việt">🇻🇳 VI</a><a href="en/" lang="en" aria-label="English">🇬🇧 EN</a><a href="zh/" lang="zh" aria-label="中文">🇨🇳 中文</a><a href="ko/" lang="ko" aria-label="한국어">🇰🇷 KO</a></nav>
  <a class="btn" href="tel:0377522800">GỌI 0377 522 800</a>
  </div></header>
  
 
 
- <section class="brand-banner" aria-label="BIỂN ĐÔNG CAR – dịch vụ xe du lịch và xe hợp đồng cao cấp"><img src="assets/banner-bien-dong-car-new.png" onerror="this.onerror=null;this.src='assets/banner-bien-dong-car.jpeg'" alt="BIỂN ĐÔNG CAR – dịch vụ xe du lịch, xe hợp đồng cao cấp và đưa đón sân bay" fetchpriority="high" decoding="async"></section>
+ <section class="brand-banner" aria-label="BIỂN ĐÔNG CAR – dịch vụ xe du lịch và xe hợp đồng cao cấp"><img src="assets/banner-bien-dong-car.jpeg" onerror="this.onerror=null;this.src='assets/banner-bien-dong-car.jpeg'" alt="BIỂN ĐÔNG CAR – dịch vụ xe du lịch, xe hợp đồng cao cấp và đưa đón sân bay" fetchpriority="high" decoding="async"></section>
  <main>
  <section class="hero"><div class="wrap">
  <div class="eyebrow">Private car & chauffeur service</div>
@@ -447,8 +446,7 @@
  function openQuickModal(){document.getElementById('quickModal').classList.add('open')}
  function closeQuickModal(){document.getElementById('quickModal').classList.remove('open')}
  function buildQuickMessage(prefix,ids){const v=id=>document.getElementById(id)?.value?.trim()||'';const km=v(ids.km);return ['YÊU CẦU BÁO GIÁ / ĐẶT XE – BIỂN ĐÔNG CAR',prefix,'Họ tên: '+(v(ids.name)||'Chưa cung cấp'),'Điện thoại: '+(v(ids.phone)||'Chưa cung cấp'),'Điểm đón: '+v(ids.origin),'Điểm đến: '+v(ids.destination),'Loại xe: '+(v(ids.vehicle)||'Khách cần tư vấn'),'Quãng đường dự kiến: '+(km?km+' km':'Chưa cung cấp'),'Ngày đi: '+(v(ids.date)||'Chưa xác định'),'Ghi chú: '+(v(ids.note)||'Không có'),km&&Number(km)>1000?'Lưu ý: Trên 1.000 km – nhân viên Biển Đông Car sẽ báo giá riêng.':(km?'Lưu ý: Giá tham khảo, cần nhân viên xác nhận.':'')].filter(Boolean).join('\n')}
- const stickyQuoteForm=document.getElementById('stickyQuoteForm'); if(stickyQuoteForm){stickyQuoteForm.addEventListener('submit',function(e){e.preventDefault();openChannelModal(buildQuickMessage('Yêu cầu từ bảng báo giá nhanh luôn hiển thị',{name:'stickyName',phone:'stickyPhone',origin:'stickyOrigin',destination:'stickyDestination',km:'stickyKm',vehicle:'stickyVehicle',date:'stickyDate',note:''}));});}
- document.getElementById('mobileQuickForm').addEventListener('submit',function(e){e.preventDefault();closeQuickModal();openChannelModal(buildQuickMessage('Yêu cầu từ bảng báo giá nhanh trên điện thoại',{name:'mobileName',phone:'mobilePhone',origin:'mobileOrigin',destination:'mobileDestination',km:'mobileKm',vehicle:'mobileVehicle',date:'mobileDate',note:'mobileNote'}));});
+ // The unified price module below owns mobile and sticky quote submission; keep one submit handler per form.
 
 
  // Google Maps DirectionsService integration. Add the restricted browser API key below after setup.
@@ -468,12 +466,7 @@
  if(BDC_GOOGLE_MAPS_API_KEY!=='PASTE_RESTRICTED_GOOGLE_MAPS_API_KEY_HERE') {const mapsScript=document.createElement('script');mapsScript.src='https://maps.googleapis.com/maps/api/js?key='+encodeURIComponent(BDC_GOOGLE_MAPS_API_KEY)+'&callback=initBdcGoogleMaps';mapsScript.async=true;mapsScript.defer=true;window.initBdcGoogleMaps=initBdcGoogleMaps;document.head.appendChild(mapsScript);}
 
 
- document.getElementById('bookingForm').addEventListener('submit',function(e){
- e.preventDefault();
- const v=id=>document.getElementById(id).value.trim();
- const msg=['YÊU CẦU BÁO GIÁ / ĐẶT XE – BIỂN ĐÔNG CAR','Họ tên: '+v('customerName'),'Điện thoại: '+v('customerPhone'),'Tuyến đường: '+v('route'),'Ngày đi: '+v('travelDate'),'Loại xe: '+v('vehicle'),'Ghi chú: '+v('note')].join('\n');
- openChannelModal(msg);
- });
+ // Submission is handled once by the unified pricing module below.
  </script>
 
 
@@ -529,26 +522,7 @@
 (function(){
  const form=document.getElementById('routeBookingForm');
  if(!form)return;
- const val=id=>(document.getElementById(id).value||'').trim();
- form.addEventListener('submit',function(e){
- e.preventDefault();
- e.stopPropagation();
- const message=[
- 'YÊU CẦU ĐẶT XE – BIỂN ĐÔNG CAR',
- 'Hình thức: '+val('rbType'),
- 'Điểm đón: '+val('rbPickup'),
- 'Điểm đến: '+val('rbDestination'),
- 'Ngày đi: '+val('rbDate'),
- 'Giờ đón: '+(val('rbTime')||'Chưa xác định'),
- 'Loại xe: '+val('rbVehicle'),
- 'Số khách: '+(val('rbGuests')||'Chưa cung cấp'),
- 'Họ tên: '+val('rbName'),
- 'Điện thoại: '+val('rbPhone'),
- 'Ghi chú: '+(val('rbNote')||'Không có'),
- 'Vui lòng tư vấn giá và xác nhận xe.'
- ].join('\n');
- window.openChannelModal(message);
- });;
+ // Submission is handled once by the unified pricing module below.
  const route=document.getElementById('routePriceSelect');
  const date=document.getElementById('rbDate');
  if(date){const now=new Date();date.min=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');}
@@ -909,7 +883,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
     'Trạng thái: KHÁCH GỬI YÊU CẦU – CHỜ BIỂN ĐÔNG CAR XÁC NHẬN XE'
    ].join('\n');
    e.preventDefault();e.stopImmediatePropagation();window.openChannelModal(message);
-  },true);
+  });
  }
  // Normalize all legacy quote forms so the price is visible in the message sent to n8n.
  function kmEstimate(km,vehicle){
@@ -937,7 +911,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
   const box=addPriceBox(bf,'bdcQuickPricePreview');
   const update=()=>{const r=findRoute($('route')?.value);const q=quoteFor(r,$('vehicle')?.value,false);show(box,q.label,r?'Giá tham khảo một chiều từ danh mục 100 tuyến.':'Chưa khớp tuyến hoặc loại xe chính xác; nhân viên sẽ báo giá.');return q.label;};
   ['route','vehicle'].forEach(id=>$(id)?.addEventListener('input',update));['route','vehicle'].forEach(id=>$(id)?.addEventListener('change',update));update();
-  bf.addEventListener('submit',function(e){e.preventDefault();e.stopImmediatePropagation();const price=update();const msg=['YÊU CẦU BÁO GIÁ / ĐẶT XE – BIỂN ĐÔNG CAR','Họ tên: '+($('customerName')?.value||''),'Điện thoại: '+($('customerPhone')?.value||''),'Tuyến đường: '+($('route')?.value||''),'Ngày đi: '+($('travelDate')?.value||''),'Loại xe: '+($('vehicle')?.value||''),'Giá dự kiến: '+price,'Ghi chú: '+($('note')?.value||'')].join('\n');window.openChannelModal(msg);},true);
+  bf.addEventListener('submit',function(e){e.preventDefault();e.stopImmediatePropagation();const price=update();const msg=['YÊU CẦU BÁO GIÁ / ĐẶT XE – BIỂN ĐÔNG CAR','Họ tên: '+($('customerName')?.value||''),'Điện thoại: '+($('customerPhone')?.value||''),'Tuyến đường: '+($('route')?.value||''),'Ngày đi: '+($('travelDate')?.value||''),'Loại xe: '+($('vehicle')?.value||''),'Giá dự kiến: '+price,'Ghi chú: '+($('note')?.value||'')].join('\n');window.openChannelModal(msg);});
  }
  // Airport, mobile quick quote and sticky quote: estimate from entered km when possible; never invent a fixed airport fare.
  function bindQuick(formId,ids){
