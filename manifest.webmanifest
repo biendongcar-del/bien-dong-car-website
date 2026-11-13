@@ -1,7 +1,7 @@
 {
-  "name": "BIỂN ĐÔNG CAR - Thuê xe du lịch",
-  "short_name": "Biển Đông Car",
-  "description": "Dịch vụ xe du lịch có tài xế, xe hợp đồng, đưa đón sân bay và hành trình liên tỉnh.",
+  "name": "BIỂN ĐÔNG CAR TRAVEL - Thuê xe du lịch",
+  "short_name": "Biển Đông Car Travel",
+  "description": "BIỂN ĐÔNG CAR TRAVEL cung cấp dịch vụ xe du lịch có tài xế, xe hợp đồng, đưa đón sân bay và hành trình liên tỉnh.",
   "lang": "vi",
   "start_url": "./",
   "scope": "./",
