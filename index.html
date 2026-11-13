@@ -466,12 +466,7 @@
  if(BDC_GOOGLE_MAPS_API_KEY!=='PASTE_RESTRICTED_GOOGLE_MAPS_API_KEY_HERE') {const mapsScript=document.createElement('script');mapsScript.src='https://maps.googleapis.com/maps/api/js?key='+encodeURIComponent(BDC_GOOGLE_MAPS_API_KEY)+'&callback=initBdcGoogleMaps';mapsScript.async=true;mapsScript.defer=true;window.initBdcGoogleMaps=initBdcGoogleMaps;document.head.appendChild(mapsScript);}
 
 
- document.getElementById('bookingForm').addEventListener('submit',function(e){
- e.preventDefault();
- const v=id=>document.getElementById(id).value.trim();
- const msg=['YÊU CẦU BÁO GIÁ / ĐẶT XE – BIỂN ĐÔNG CAR','Họ tên: '+v('customerName'),'Điện thoại: '+v('customerPhone'),'Tuyến đường: '+v('route'),'Ngày đi: '+v('travelDate'),'Loại xe: '+v('vehicle'),'Ghi chú: '+v('note')].join('\n');
- openChannelModal(msg);
- });
+ // Submission is handled once by the unified pricing module below.
  </script>
 
 
@@ -527,26 +522,7 @@
 (function(){
  const form=document.getElementById('routeBookingForm');
  if(!form)return;
- const val=id=>(document.getElementById(id).value||'').trim();
- form.addEventListener('submit',function(e){
- e.preventDefault();
- e.stopPropagation();
- const message=[
- 'YÊU CẦU ĐẶT XE – BIỂN ĐÔNG CAR',
- 'Hình thức: '+val('rbType'),
- 'Điểm đón: '+val('rbPickup'),
- 'Điểm đến: '+val('rbDestination'),
- 'Ngày đi: '+val('rbDate'),
- 'Giờ đón: '+(val('rbTime')||'Chưa xác định'),
- 'Loại xe: '+val('rbVehicle'),
- 'Số khách: '+(val('rbGuests')||'Chưa cung cấp'),
- 'Họ tên: '+val('rbName'),
- 'Điện thoại: '+val('rbPhone'),
- 'Ghi chú: '+(val('rbNote')||'Không có'),
- 'Vui lòng tư vấn giá và xác nhận xe.'
- ].join('\n');
- window.openChannelModal(message);
- });;
+ // Submission is handled once by the unified pricing module below.
  const route=document.getElementById('routePriceSelect');
  const date=document.getElementById('rbDate');
  if(date){const now=new Date();date.min=[now.getFullYear(),String(now.getMonth()+1).padStart(2,'0'),String(now.getDate()).padStart(2,'0')].join('-');}
@@ -907,7 +883,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
     'Trạng thái: KHÁCH GỬI YÊU CẦU – CHỜ BIỂN ĐÔNG CAR XÁC NHẬN XE'
    ].join('\n');
    e.preventDefault();e.stopImmediatePropagation();window.openChannelModal(message);
-  },true);
+  });
  }
  // Normalize all legacy quote forms so the price is visible in the message sent to n8n.
  function kmEstimate(km,vehicle){
@@ -935,7 +911,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.se
   const box=addPriceBox(bf,'bdcQuickPricePreview');
   const update=()=>{const r=findRoute($('route')?.value);const q=quoteFor(r,$('vehicle')?.value,false);show(box,q.label,r?'Giá tham khảo một chiều từ danh mục 100 tuyến.':'Chưa khớp tuyến hoặc loại xe chính xác; nhân viên sẽ báo giá.');return q.label;};
   ['route','vehicle'].forEach(id=>$(id)?.addEventListener('input',update));['route','vehicle'].forEach(id=>$(id)?.addEventListener('change',update));update();
-  bf.addEventListener('submit',function(e){e.preventDefault();e.stopImmediatePropagation();const price=update();const msg=['YÊU CẦU BÁO GIÁ / ĐẶT XE – BIỂN ĐÔNG CAR','Họ tên: '+($('customerName')?.value||''),'Điện thoại: '+($('customerPhone')?.value||''),'Tuyến đường: '+($('route')?.value||''),'Ngày đi: '+($('travelDate')?.value||''),'Loại xe: '+($('vehicle')?.value||''),'Giá dự kiến: '+price,'Ghi chú: '+($('note')?.value||'')].join('\n');window.openChannelModal(msg);},true);
+  bf.addEventListener('submit',function(e){e.preventDefault();e.stopImmediatePropagation();const price=update();const msg=['YÊU CẦU BÁO GIÁ / ĐẶT XE – BIỂN ĐÔNG CAR','Họ tên: '+($('customerName')?.value||''),'Điện thoại: '+($('customerPhone')?.value||''),'Tuyến đường: '+($('route')?.value||''),'Ngày đi: '+($('travelDate')?.value||''),'Loại xe: '+($('vehicle')?.value||''),'Giá dự kiến: '+price,'Ghi chú: '+($('note')?.value||'')].join('\n');window.openChannelModal(msg);});
  }
  // Airport, mobile quick quote and sticky quote: estimate from entered km when possible; never invent a fixed airport fare.
  function bindQuick(formId,ids){
