@@ -1,0 +1,31 @@
+name: Sync approved-for-review SEO articles to Firestore drafts
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: seo-sheet-firestore-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install --disable-pip-version-check 'gspread>=6,<7' 'google-cloud-firestore>=2,<3' 'google-auth>=2,<3'
+      - name: Import Google Sheets SEO drafts
+        env:
+          SEO_SYNC_SERVICE_ACCOUNT: ${{ secrets.SEO_SYNC_SERVICE_ACCOUNT }}
+          SEO_SHEET_ID: ${{ secrets.SEO_SHEET_ID }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          SEO_SHEET_TAB: Trang tính1
+        run: python scripts/sync_seo_sheet_to_firestore.py
