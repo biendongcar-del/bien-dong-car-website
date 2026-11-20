@@ -34,7 +34,7 @@ button:disabled{opacity:.45;cursor:not-allowed}.row{display:grid;grid-template-c
 </style>
 </head>
 <body>
-<header><div class="brand">BIỂN ĐÔNG <span>CAR</span> · QUẢN TRỊ</div><div id="account" class="small">Chưa đăng nhập</div></header>
+<header><div class="brand">BIỂN ĐÔNG <span>CAR TRAVEL</span> · QUẢN TRỊ</div><div id="account" class="small">Chưa đăng nhập</div></header>
 <main>
 <section class="panel">
 <h1>Quản trị bài viết & AI SEO</h1>
@@ -49,6 +49,12 @@ button:disabled{opacity:.45;cursor:not-allowed}.row{display:grid;grid-template-c
 <div class="grid2">
 <div class="panel">
 <h2>Soạn bài viết</h2>
+<details style="margin:12px 0 20px;border:1px solid var(--line);border-radius:10px;padding:12px">
+<summary style="cursor:pointer;color:var(--gold);font-weight:800">Nhập bài SEO từ n8n / Google Sheets (JSON)</summary>
+<p class="small">Dán JSON của một bài SEO, gồm đối tượng bai_sua hoặc trực tiếp các trường Tiêu đề VI, Nội dung VI... Chọn ngôn ngữ rồi bấm “Đưa vào biểu mẫu”. Bài vẫn phải được lưu nháp và duyệt thủ công.</p>
+<label for="seoJson">Dữ liệu JSON</label><textarea id="seoJson" spellcheck="false" style="min-height:125px" placeholder='{"bai_sua":{"Từ khóa":"...","Tiêu đề VI":"...","Nội dung VI":"..."}}'></textarea>
+<div class="actions"><button type="button" class="secondary" id="importJsonBtn">Đưa vào biểu mẫu</button></div>
+</details>
 <label for="lang">Ngôn ngữ</label><select id="lang"><option value="vi">Tiếng Việt</option><option value="en">English</option><option value="zh">中文</option><option value="ko">한국어</option></select>
 <label for="title">Tiêu đề bài viết</label><input id="title" maxlength="110" placeholder="Ví dụ: Kinh nghiệm thuê xe riêng từ TP.HCM đi Đà Lạt">
 <label for="slug">Đường dẫn (slug)</label><input id="slug" placeholder="kinh-nghiem-thue-xe-sai-gon-da-lat">
@@ -106,6 +112,33 @@ $("loginBtn").onclick = async () => {
   } finally {
     btn.disabled = false;
   }
+};
+$("importJsonBtn").onclick = () => {
+ try {
+  const raw=JSON.parse($("seoJson").value.trim());
+  const item=Array.isArray(raw)?raw[0]:raw;
+  const d=item?.bai_sua||item;
+  if(!d||typeof d!=="object")throw Error("JSON không có đối tượng bài SEO hợp lệ.");
+  const lang=$("lang").value.toUpperCase();
+  const title=String(d["Tiêu đề "+lang]||"").trim();
+  const content=String(d["Nội dung "+lang]||"").trim();
+  if(!title||!content)throw Error("Thiếu Tiêu đề "+lang+" hoặc Nội dung "+lang+". Hãy chọn đúng ngôn ngữ.");
+  if(currentDraftId&&!confirm("Đang mở một bản nháp. Tạo nội dung mới để không ghi đè bản nháp hiện tại?"))return;
+  const keyword=String(d["Từ khóa"]||item?.tu_khoa_can_ghi||"").trim();
+  const excerpt=content.replace(/<[^>]*>/g," ").replace(/&(?:amp|nbsp|quot);/g," ").replace(/\s+/g," ").trim();
+  const meta=excerpt.length>160?excerpt.slice(0,157).replace(/\s+\S*$/,"")+"...":excerpt;
+  $("title").value=title.slice(0,110);
+  $("keyword").value=keyword;
+  $("slug").value=cleanSlug(title);
+  $("slug").dataset.edited="";
+  $("seoTitle").value=title.slice(0,65);
+  $("meta").value=meta.slice(0,165);
+  $("content").value=content;
+  currentDraftId=null;
+  $("publishBtn").disabled=true;
+  checkSEO();
+  say("Đã đưa bài SEO "+lang+" vào biểu mẫu. Hãy rà soát SEO title, mô tả và nội dung rồi bấm Lưu bản nháp.");
+ }catch(e){say("Không nhập được JSON: "+e.message);}
 };
 $("newBtn").onclick = () => {["title","slug","keyword","seoTitle","meta","content"].forEach(id=>$(id).value="");$("slug").dataset.edited="";$("lang").value="vi";currentDraftId=null;$("publishBtn").disabled=true;checkSEO();say("Đang soạn bài mới.");};
 $("title").addEventListener("input",()=>{if(!$("slug").dataset.edited)$("slug").value=cleanSlug($("title").value);});
