@@ -143,6 +143,11 @@ def main():
 if __name__ == "__main__":
     try:
         main()
+  
     except Exception as exc:
-        print("SEO sync failed: " + str(exc), file=sys.stderr)
+        import traceback
+        print("SEO sync failed", file=sys.stderr)
+        print("Error type: " + type(exc).__name__, file=sys.stderr)
+        traceback.print_exc()
         sys.exit(1)
+  
