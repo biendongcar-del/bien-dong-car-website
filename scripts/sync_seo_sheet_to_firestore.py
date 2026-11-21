@@ -43,7 +43,8 @@ def main():
     raw = os.environ.get("SEO_SYNC_SERVICE_ACCOUNT", "")
     spreadsheet_id = os.environ.get("SEO_SHEET_ID", "")
     project_id = os.environ.get("FIREBASE_PROJECT_ID", "")
-    sheet_tab = os.environ.get("SEO_SHEET_TAB", "Trang tính1")
+    sheet_tab = os.environ.get("SEO_SHEET_TAB", "Trang tính1")    
+    dry_run = os.environ.get("SEO_SYNC_DRY_RUN", "true").lower() == "true"
     if not (raw and spreadsheet_id and project_id):
         raise RuntimeError("Configure SEO_SYNC_SERVICE_ACCOUNT, SEO_SHEET_ID and FIREBASE_PROJECT_ID")
     info = json.loads(raw)
@@ -113,13 +114,18 @@ def main():
                 "source": "seo-google-sheets",
                 "seoQualityScore": int(float(row.get("Điểm chất lượng", "0") or "0")),
             }
-            if existing.exists:
+                if existing.exists:
+                # Khong ghi de bai dang duyet, bai thu cong hoac da xuat ban.
+                if old.get("status") != "draft" or old.get("source") != "seo-google-sheets":
+                    skipped += 1
+                    continue
                 fields["slug"] = old.get("slug") or fields["slug"]
                 if all(old.get(k) == v for k, v in fields.items()):
                     unchanged += 1
                     continue
                 fields["updatedAt"] = firestore.SERVER_TIMESTAMP
-                doc_ref.set(fields, merge=True)
+                if not dry_run:
+                    doc_ref.set(fields, merge=True)
                 updated += 1
             else:
                 fields.update({
@@ -127,8 +133,10 @@ def main():
                     "updatedAt": firestore.SERVER_TIMESTAMP,
                     "createdBy": "seo-sync",
                 })
-                doc_ref.set(fields, merge=True)
+                if not dry_run:
+                    doc_ref.set(fields, merge=True)
                 created += 1
+
     print(f"SEO sync complete: created={created}, updated={updated}, unchanged={unchanged}, skipped={skipped}")
 
 
