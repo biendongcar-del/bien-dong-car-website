@@ -114,7 +114,7 @@ def main():
                 "source": "seo-google-sheets",
                 "seoQualityScore": int(float(row.get("Điểm chất lượng", "0") or "0")),
             }
-                if existing.exists:
+            if existing.exists:
                 # Khong ghi de bai dang duyet, bai thu cong hoac da xuat ban.
                 if old.get("status") != "draft" or old.get("source") != "seo-google-sheets":
                     skipped += 1
