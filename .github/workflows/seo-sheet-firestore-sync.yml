@@ -26,4 +26,5 @@ jobs:
           SEO_SHEET_ID: ${{ secrets.SEO_SHEET_ID }}
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
           SEO_SHEET_TAB: Trang tính1
+          SEO_SYNC_DRY_RUN: "false"
         run: python scripts/sync_seo_sheet_to_firestore.py
